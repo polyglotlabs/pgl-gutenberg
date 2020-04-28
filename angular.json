@@ -2,5 +2,162 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "pgl-gutenberg": {
+      "projectType": "library",
+      "root": "projects/pgl-gutenberg",
+      "sourceRoot": "projects/pgl-gutenberg/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/pgl-gutenberg/tsconfig.lib.json",
+            "project": "projects/pgl-gutenberg/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pgl-gutenberg/src/test.ts",
+            "tsConfig": "projects/pgl-gutenberg/tsconfig.spec.json",
+            "karmaConfig": "projects/pgl-gutenberg/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pgl-gutenberg/tsconfig.lib.json",
+              "projects/pgl-gutenberg/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "pgl-gutenberg-tester": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/pgl-gutenberg-tester",
+      "sourceRoot": "projects/pgl-gutenberg-tester/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/pgl-gutenberg-tester",
+            "index": "projects/pgl-gutenberg-tester/src/index.html",
+            "main": "projects/pgl-gutenberg-tester/src/main.ts",
+            "polyfills": "projects/pgl-gutenberg-tester/src/polyfills.ts",
+            "tsConfig": "projects/pgl-gutenberg-tester/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/pgl-gutenberg-tester/src/favicon.ico",
+              "projects/pgl-gutenberg-tester/src/assets"
+            ],
+            "styles": [
+              "projects/pgl-gutenberg-tester/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/pgl-gutenberg-tester/src/environments/environment.ts",
+                  "with": "projects/pgl-gutenberg-tester/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "pgl-gutenberg-tester:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pgl-gutenberg-tester:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "pgl-gutenberg-tester:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pgl-gutenberg-tester/src/test.ts",
+            "polyfills": "projects/pgl-gutenberg-tester/src/polyfills.ts",
+            "tsConfig": "projects/pgl-gutenberg-tester/tsconfig.spec.json",
+            "karmaConfig": "projects/pgl-gutenberg-tester/karma.conf.js",
+            "assets": [
+              "projects/pgl-gutenberg-tester/src/favicon.ico",
+              "projects/pgl-gutenberg-tester/src/assets"
+            ],
+            "styles": [
+              "projects/pgl-gutenberg-tester/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pgl-gutenberg-tester/tsconfig.app.json",
+              "projects/pgl-gutenberg-tester/tsconfig.spec.json",
+              "projects/pgl-gutenberg-tester/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/pgl-gutenberg-tester/e2e/protractor.conf.js",
+            "devServerTarget": "pgl-gutenberg-tester:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "pgl-gutenberg-tester:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "pgl-gutenberg"
 }

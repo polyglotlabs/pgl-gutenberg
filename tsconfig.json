@@ -17,9 +17,18 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "pgl-gutenberg": [
+        "dist/pgl-gutenberg"
+      ],
+      "pgl-gutenberg/*": [
+        "dist/pgl-gutenberg/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
+    "enableIvy": false,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
